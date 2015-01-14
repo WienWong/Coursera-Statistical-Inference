@@ -1,0 +1,89 @@
+---
+title: "Statistical Inference Course Project Report Part 1"
+author: "Weihua Wang"
+date: "Tuesday, January 14, 2015"
+output: html_document
+---
+
+### Brief Introduction
+
+This is the project report for the Online Coursera course -- Statistical Inference. Basic tasks of this project consists two parts:
+
+1. A simulation exercise.
+2. Basic inferential data analysis.
+
+The exponential distribution can be simulated in R with rexp(n, lambda) where lambda is the rate parameter. The mean of exponential distribution is 1/lambda and the standard deviation is also 1/lambda. 
+
+For all of the thousand simulations, lambda should be set as 0.2. The distribution of averages of 40 exponentials should be investigated. 
+
+### Simulation and results
+
+One thousand simulated averages of 40 exponentials can be realized via creation of an empty vector to store all of our sample means.
+
+```{r}
+lambda = 0.2
+n = 40
+myexpd <- rep(NA, 1000)
+```
+
+Thus, the distribution of the mean of 40 exponentials is simulated by,
+
+```{r}
+set.seed(512)
+for (i in 1:1000){
+    tmp <- rexp(n, lambda)
+    myexpd[i] <- mean(tmp) 
+}
+```
+
+The mean and variance can be obtained by
+
+```{r}
+myexpd_m <- mean(myexpd)
+myexpd_m
+myexpd_v <- var(myexpd)
+myexpd_v
+```
+
+Compared to the theoretical mean and variance
+
+```{r}
+mean_t <- 1 / lambda
+mean_t
+var_t <- (1/lambda)^2/n
+var_t
+```
+
+As can be seen that the comparision between both the calculated mean/variance and the theoretical mean/variance featured with almost negligible variation.
+
+To see if the distribution resembles a normal distribution.
+```{r histogram}
+hist(myexpd, probability=T, main="", xlab=""，col="blue", ylim=c(0,0.5))
+lines(density(myexpd))
+curve(dnorm(x,myexpd_m, sqrt(myexpd_v)), 2, 8, col="red", add=T)
+```
+
+Convert to data frame for ggplot.
+```{r}
+df <- data.frame(myexpd)
+library(ggplot2)
+```
+
+
+```{r, echo=TRUE, fig.width=4, fig.height=3}
+g <- ggplot(data = df, aes(x = myexpd)) 
+ggp <- g + geom_histogram(aes(y=..density..), fill = I('blue'), binwidth = 0.20, color = I('black')) + stat_function(fun = dnorm, arg = list(mean = mean_t, sd = sqrt(var_t)), color = "red")
+print(ggp)
+```
+
+Obviously, the distribution is approximately normal.
+
+Last, the coverage of the confidence interval for 1/lambda is claculated through,
+
+```{r}
+lowercl <- myexpd - qnorm(0.975) * (1/lambda)/sqrt(n)
+uppercl <- myexpd + qnorm(0.975) * (1/lambda)/sqrt(n)
+expci <- mean(lowercl < (1/lambda) & uppercl > (1/lambda))
+expci
+```
+The confidence interval is thus expci of 95.3%.
