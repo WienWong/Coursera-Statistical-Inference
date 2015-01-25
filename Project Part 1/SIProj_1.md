@@ -98,7 +98,7 @@ g + geom_histogram(aes(y=..density..), fill="blue", binwidth=0.20, col="black") 
     geom_vline(xintercept=myexpd_m, col="green", linetype="longdash")
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) 
+![plot of chunk unnamed-chunk-6](figure/Proj1-1.png) 
 
 From the histogram plot, distribution of the simulation is approximately normal. Yellow curve represents normal distribution with theoretical mean (5) and variance (0.625). Black curve shows the density curve of the simulation. Red dashed line points out where the theoretical mean locates. Green dashed line shows where the calculated sample mean locates.
 
@@ -110,7 +110,7 @@ qqnorm(myexpd)
 qqline(myexpd, col = 2)
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
+![plot of chunk unnamed-chunk-7](figure/Proj1-2.png) 
 As clear seen from the QQ plot, the distribution of averages of 40 exponentials is pretty close to a normal distribution.
 
 Last, evaluate the 95% confidence interval for this simulation:

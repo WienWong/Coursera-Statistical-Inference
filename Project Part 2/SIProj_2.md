@@ -45,7 +45,7 @@ ggplot(data = TG, aes(x = dose, y = len, fill = supp)) +
     guides(fill = guide_legend(title = "Delivery method"))
 ```
 
-![plot of chunk barplot](figure/barplot-1.png) 
+![plot of chunk barplot](figure/Proj2-1.png) 
 
 For both delivery methods, there is a positive correlation between the teeth length and the dose levels.
 
